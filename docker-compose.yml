@@ -29,6 +29,18 @@ services:
               capabilities: [gpu]
     environment:
       ENABLE_CUDA: 1
+      NVIDIA_VISIBLE_DEVICES: all
+  dev-jupyter:
+    image: rag-explore-dev
+    ports:
+      - 8888:8888
+    container_name: dev-jupyter
+    build:
+      context: dev/
+      dockerfile: Dockerfile
+    volumes:
+      - ./dev/data:/app/data
+
 
 volumes:
     weaviate_data:
