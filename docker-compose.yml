@@ -41,7 +41,7 @@ services:
       - ./vllm/model-7b:/app/model-7b
       - ./vllm/.cache:/root/.cache/huggingface
     ipc: host
-    command: "--model /app/model-7b --dtype half --gpu-memory-utilization 0.99"
+    command: "--model ./model-7b --dtype half --gpu-memory-utilization 0.99 --chat-template ./template_chatml.jinja"
     deploy:
       resources:
         reservations:
