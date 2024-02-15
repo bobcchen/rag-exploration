@@ -4,7 +4,7 @@ services:
     image: semitechnologies/weaviate:1.23.9
     restart: on-failure:0
     ports:
-    - 8080:8080
+    - 8000:8080
     - 50051:50051
     volumes:
     - weaviate_data:/var/lib/weaviate
@@ -19,7 +19,7 @@ services:
   t2v-transformers:
     image: semitechnologies/transformers-inference:sentence-transformers-multi-qa-MiniLM-L6-cos-v1
     ports:
-    - 8000:8080
+    - 8001:8080
     deploy:
       resources:
         reservations:
@@ -30,6 +30,23 @@ services:
     environment:
       ENABLE_CUDA: 1
       NVIDIA_VISIBLE_DEVICES: all
+  vllm:
+    image: vllm-cuda18.1
+    ports:
+      - 8002:8000
+    build:
+      context: vllm/
+      dockerfile: Dockerfile
+    volumes:
+      - ./vllm/model-7b:/app/model-7b
+    command: "--model /app/model-7b --dtype half --gpu-memory-utilization 0.99"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
   dev-jupyter:
     image: rag-explore-dev
     ports:
