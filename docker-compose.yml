@@ -39,6 +39,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./vllm/model-7b:/app/model-7b
+      - ./vllm/.cache:/root/.cache/huggingface
+    ipc: host
     command: "--model /app/model-7b --dtype half --gpu-memory-utilization 0.99"
     deploy:
       resources:
