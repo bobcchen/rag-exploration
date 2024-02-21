@@ -20,9 +20,7 @@ RUN pip install torch==2.1.2 --index-url https://download.pytorch.org/whl/cu118
 RUN pip uninstall xformers -y
 RUN pip install xformers==0.0.23.post1 --index-url https://download.pytorch.org/whl/cu118
 
-# Include provided chat template
 WORKDIR /app
-COPY template_chatml.jinja /app/template_chatml.jinja
 
 EXPOSE 8080
 
